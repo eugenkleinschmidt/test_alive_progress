@@ -10,9 +10,57 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  test_window:
 
-    runs-on: [windows-latest, ubuntu-latest, macos-latest]
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install tox pytest alive_progress
+    - name: Test with direct call
+      run: |
+        python test_progress.py
+    - name: Test with pytest
+      run: |
+        pytest
+    - name: Test with tox
+      run: |
+        tox
+
+  test_ubuntu:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install tox pytest alive_progress
+    - name: Test with direct call
+      run: |
+        python test_progress.py
+    - name: Test with pytest
+      run: |
+        pytest
+    - name: Test with tox
+      run: |
+        tox
+
+  test_macos:
+
+    runs-on: macos-latest
 
     steps:
     - uses: actions/checkout@v2
